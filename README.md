@@ -1,0 +1,14 @@
+Pover-T Tests: Predicting Poverty
+Goal of the Competition
+
+The World Bank is aiming to end extreme poverty by 2030. Crucial to this goal are techniques for determining which poverty reduction strategies work and which ones do not. But measuring poverty reduction requires measuring poverty in the first place, and it turns out that measuring poverty is pretty hard. The World Bank helps developing countries measure poverty by conducting in-depth household surveys with a subset of the country's population. To measure poverty, most of these surveys collect detailed data on household consumption – everything from food and transportation habits to healthcare access and sporting events – in order to get a clearer picture of a household's poverty status.
+
+Can you harness the power of these data to identify the strongest predictors of poverty? Right now measuring poverty is hard, time consuming, and expensive. By building better models, we can run surveys with fewer, more targeted questions that rapidly and cheaply measure the effectiveness of new policies and interventions. The more accurate our models, the more accurately we can target interventions and iterate on policies, maximizing the impact and cost-effectiveness of these strategies.
+What's in this Repository
+
+This repository contains code volunteered from leading competitors in the Pover-T Tests: Predicting Poverty DrivenData challenge.
+
+
+Model Summary
+
+Since there are many categorical features in the data and a small size of samples, I decided to use tree-based algorithms (CatBoost, XGBoost and LightGBM). In the final submission, I used an ensemble of the results of each algorithm. The smallest correlation was between CatBoost vs XGBoost and CatBoost vs LightGBM. So, I chose the weights 0.4 for XGBoost and CatBoost, and 0.2 for LightGBM. Since the data for countries are not balanced, this fact had to be taken into account in the calculations. Cross-validation showed that for countries A and B it is better to use weights in the algorithms, and for country B to make up-sampling. Since the features was too much, the generation of new ones had to be treated very carefully and only those that gave a significant increase in cross-validation(the number of unique categories for households, the number of residents, the number of positive and negative values). In addition, cross-validation showed that the data of their individual set for country A did not reduce the error. After the generation of the feature, I filtered using the feature_importance parameter for each of the algorithms separately, and this significantly reduced the number of features without loss of quality.
